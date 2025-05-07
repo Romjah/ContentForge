@@ -20,17 +20,32 @@ Un générateur de sites statiques minimaliste avec pipeline CI/CD intégré.
 
 ### Option 1 : Installation automatisée (Recommandée)
 
-1. Créez un token GitHub avec les permissions suivantes :
+1. Créez un token GitHub sur https://github.com/settings/tokens/new avec les permissions suivantes :
    - `repo` (accès complet aux repositories)
    - `workflow` (gestion des GitHub Actions)
    - `admin:org` (si vous utilisez une organisation)
+   - Le token doit être de type "classic" ou "fine-grained" avec accès en écriture sur le repo cible.
 
 2. Exécutez la commande d'installation :
 ```bash
 npx contentforge init
 ```
 
-3. Suivez l'assistant qui vous guidera pour :
+3. Lors de la saisie du token GitHub, un prompt explicite s'affichera :
+
+```
+Entrez votre token GitHub (nécessaire pour la configuration)
+
+À créer sur https://github.com/settings/tokens/new
+Scopes requis : repo, workflow, (admin:org si organisation)
+Le token doit être classic ou fine-grained avec accès en écriture sur le repo cible.
+
+(Tape ton token puis appuie sur Entrée. Les caractères seront masqués par des étoiles.)
+
+Token GitHub : ************
+```
+
+4. Suivez l'assistant qui vous guidera pour :
    - Connecter votre compte GitHub
    - Choisir entre un repository existant ou en créer un nouveau
    - Configurer les paramètres de base

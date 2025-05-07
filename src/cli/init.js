@@ -16,7 +16,17 @@ async function init() {
   const { githubToken } = await inquirer.prompt([{
     type: 'password',
     name: 'githubToken',
-    message: 'Entrez votre token GitHub (nécessaire pour la configuration)',
+    mask: '*',
+    message: [
+      'Entrez votre token GitHub (nécessaire pour la configuration)\n',
+      'À créer sur https://github.com/settings/tokens/new',
+      'Scopes requis : repo, workflow, (admin:org si organisation)',
+      'Le token doit être classic ou fine-grained avec accès en écriture sur le repo cible.',
+      '',
+      '(Tape ton token puis appuie sur Entrée. Les caractères seront masqués par des étoiles.)',
+      '',
+      'Token GitHub :'
+    ].join('\n'),
     validate: input => input.length > 0 ? true : 'Le token est requis'
   }]);
 
