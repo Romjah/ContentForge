@@ -175,6 +175,53 @@ jobs:
     console.error('❌ Erreur lors de la configuration git:', error.message);
   }
 
+  // Demander les secrets Cloudflare
+  const { cloudflareApiToken, cloudflareAccountId } = await inquirer.prompt([
+    {
+      type: 'password',
+      name: 'cloudflareApiToken',
+      message: 'Entrez votre CLOUDFLARE_API_TOKEN (Cloudflare Pages)',
+      validate: input => input.length > 0 ? true : 'Le token est requis'
+    },
+    {
+      type: 'input',
+      name: 'cloudflareAccountId',
+      message: 'Entrez votre CLOUDFLARE_ACCOUNT_ID',
+      validate: input => input.length > 0 ? true : 'L\'ID est requis'
+    }
+  ]);
+
+  // Ajouter les secrets Cloudflare au repo via l'API GitHub
+  console.log('🔑 Configuration automatique des secrets GitHub...');
+  const { data: publicKey } = await octokit.actions.getRepoPublicKey({
+    owner: repoOwner,
+    repo: repoName
+  });
+  const sodium = await import('tweetsodium');
+  function encryptSecret(secret, key) {
+    const messageBytes = Buffer.from(secret);
+    const keyBytes = Buffer.from(key, 'base64');
+    const encryptedBytes = sodium.sodium.seal(messageBytes, keyBytes);
+    return Buffer.from(encryptedBytes).toString('base64');
+  }
+  // CLOUDFLARE_API_TOKEN
+  await octokit.actions.createOrUpdateRepoSecret({
+    owner: repoOwner,
+    repo: repoName,
+    secret_name: 'CLOUDFLARE_API_TOKEN',
+    encrypted_value: encryptSecret(cloudflareApiToken, publicKey.key),
+    key_id: publicKey.key_id
+  });
+  // CLOUDFLARE_ACCOUNT_ID
+  await octokit.actions.createOrUpdateRepoSecret({
+    owner: repoOwner,
+    repo: repoName,
+    secret_name: 'CLOUDFLARE_ACCOUNT_ID',
+    encrypted_value: encryptSecret(cloudflareAccountId, publicKey.key),
+    key_id: publicKey.key_id
+  });
+  console.log('✅ Secrets Cloudflare ajoutés au repo GitHub !');
+
   // Instructions finales
   console.log('\n🎉 Configuration terminée !');
   console.log('\nProchaines étapes :');

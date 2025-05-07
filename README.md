@@ -150,4 +150,53 @@ export default {
 
 Si vous avez choisi l'installation manuelle, créez un fichier `contentforge.config.js` à la racine de votre projet :
 
+```js
+export default {
+  // Chemins des dossiers
+  source: './content',
+  templates: './templates',
+  output: './dist',
+  assets: './assets',
+
+  // Configuration du serveur de développement
+  dev: {
+    port: 3000,
+    watch: true
+  },
+
+  // Configuration SEO
+  seo: {
+    title: 'Mon Site',
+    description: 'Description de mon site',
+    baseUrl: 'https://monsite.com',
+    robots: true,
+    sitemap: true
+  },
+
+  // Configuration des assets
+  assets: {
+    images: {
+      quality: 80,
+      formats: ['webp', 'avif'],
+      sizes: [320, 640, 960, 1280]
+    },
+    css: {
+      minify: true,
+      autoprefixer: true
+    },
+    js: {
+      minify: true
+    }
+  },
+
+  // Extensions Markdown
+  markdown: {
+    extensions: [
+      'frontmatter',
+      'code-highlight',
+      'tables',
+      'task-lists'
+    ]
+  }
+}
 ```
