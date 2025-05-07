@@ -1,0 +1,39 @@
+{
+  "name": "contentforge",
+  "version": "1.0.0",
+  "description": "Un générateur de sites statiques minimaliste avec pipeline CI/CD intégré",
+  "type": "module",
+  "bin": {
+    "contentforge": "./src/cli/init.js"
+  },
+  "scripts": {
+    "dev": "node src/server.js",
+    "build": "node src/builder.js",
+    "serve": "node src/server.js --no-watch",
+    "setup": "node src/cli/init.js"
+  },
+  "keywords": [
+    "static-site-generator",
+    "markdown",
+    "templating",
+    "ci-cd"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^19.0.7",
+    "chokidar": "^3.5.3",
+    "express": "^4.18.2",
+    "handlebars": "^4.7.8",
+    "inquirer": "^9.2.7",
+    "marked": "^9.1.5",
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
